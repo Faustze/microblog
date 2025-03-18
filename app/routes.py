@@ -11,7 +11,6 @@ import sqlalchemy as sa
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'Faust'}
     posts = [
         {
             'author': {'username': 'Artem'},
@@ -24,10 +23,9 @@ def index():
         {
             'author': {'username': 'Shiza'},
             'body': 'I am tryharding so much to be a Python Developer!',
-            'some_key': "Let's write some code :)"
         }
     ]
-    return render_template('index.html', title='Home', user=user, posts=posts)
+    return render_template('index.html', title='Home', posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,7 +43,7 @@ def login():
         next_page = request.args.get('next')
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
-        return redirect(url_for('index'))
+        return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/logout')
